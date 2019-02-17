@@ -1,0 +1,7 @@
+Map;Search the road;
+Dąb;Duże drzewo;
+Agata;imie damskie;
+Barka;mniejszy statek;
+Statek;Plywa;
+wyrwidab;silny chlop;
+konstatynopolitanczykowna;dlugie imie;

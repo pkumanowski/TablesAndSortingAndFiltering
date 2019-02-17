@@ -17,7 +17,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class MainWindowController implements Initializable {
@@ -26,6 +25,8 @@ public class MainWindowController implements Initializable {
     public Button createButtonId;
     @FXML
     public Button sortButtonId;
+    @FXML
+    public Button deleteButton;
     @FXML
     public Button quitButtonId;
     @FXML
@@ -46,7 +47,8 @@ public class MainWindowController implements Initializable {
     public TextField search;
 
 
-    private Collection<Crossword> list = Files.readAllLines(new File("/Users/pawel/Desktop/crossword.txt").toPath())
+    private Collection<Crossword> list = Files.readAllLines(new File("/Users/pawel/IdeaProjects/homework/Mid project/src/crossword.txt")
+            .toPath())
             .stream()
             .map(line -> {
                 String[] details = line.split(";");
@@ -83,6 +85,10 @@ public class MainWindowController implements Initializable {
 
         });
 
+        deleteButton.setOnAction(event -> {
+            deleteSelectedRow();
+        });
+
         quitButtonId.setOnAction(event -> {
             quitApplication();
         });
@@ -99,28 +105,28 @@ public class MainWindowController implements Initializable {
         descriptionColumnId.setCellValueFactory(new PropertyValueFactory<>("description"));
         tableView.getItems().add(cross);
 
-        Writer writer=null;
+        Writer writer = null;
         List<Crossword> temp = passwordList;
         try {
-            File file = new File("/Users/pawel/Desktop/crossword.txt");
+            File file = new File("/Users/pawel/IdeaProjects/homework/Mid project/src/crossword.txt");
             writer = new BufferedWriter(new FileWriter(file));
-            for(Crossword crossword : temp){
+            for (Crossword crossword : temp) {
                 String text = crossword.getPassword() + ";" + crossword.getDescription() + ";" + "\n";
                 writer.write(text);
 
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }            finally{
+        } finally {
             {
-                try{
+                try {
                     writer.flush();
-                }catch(IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-                try{
+                try {
                     writer.close();
-                }catch(IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -128,12 +134,12 @@ public class MainWindowController implements Initializable {
     }
 
     public void sortFileContents() {
-        Writer writer=null;
+        Writer writer = null;
         List<Crossword> temp = passwordList;
         try {
-            File file = new File("/Users/pawel/Desktop/crossword.txt");
+            File file = new File("/Users/pawel/IdeaProjects/homework/Mid project/src/crossword.txt");
             writer = new BufferedWriter(new FileWriter(file));
-            for(Crossword crossword : temp){
+            for (Crossword crossword : temp) {
                 String text = crossword.getPassword() + ";" + crossword.getDescription() + ";" + "\n";
                 Collections.sort(temp, new CrosswordComparator());
                 writer.write(text);
@@ -141,16 +147,16 @@ public class MainWindowController implements Initializable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }            finally{
+        } finally {
             {
-                try{
+                try {
                     writer.flush();
-                }catch(IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-                try{
+                try {
                     writer.close();
-                }catch(IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -163,7 +169,7 @@ public class MainWindowController implements Initializable {
         alert.setHeaderText("Are you really sure you want to quit?");
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             System.exit(0);
         } else {
         }
@@ -181,16 +187,13 @@ public class MainWindowController implements Initializable {
             filter.setPredicate((Predicate<? super Crossword>) (Crossword cross) -> {
 
 
-                if (newValue.isEmpty() || newValue==null){
+                if (newValue.isEmpty() || newValue == null) {
                     return true;
-                }
-                else if (cross.getPassword().contains(newValue)){ //filtrowanie po znakach w password
+                } else if (cross.getPassword().contains(newValue)) { //filtrowanie po znakach w password
                     return true;
-                }
-                else if (cross.getDescription().contains(newValue)){ //filtrowanie po znakach w description
+                } else if (cross.getDescription().contains(newValue)) { //filtrowanie po znakach w description
                     return true;
-                }
-                else if (cross.getLength() == 5){ //filrtowanie po długosci hasla
+                } else if (cross.getLength() == 5) { //filrtowanie po długosci hasla
                     return true;
                 }
                 return false;
@@ -199,5 +202,10 @@ public class MainWindowController implements Initializable {
         SortedList sort = new SortedList(filter);
         sort.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sort);
+    }
+
+    public void deleteSelectedRow() {
+        Crossword selectedItem = tableView.getSelectionModel().getSelectedItem();
+        tableView.getItems().remove(selectedItem);
     }
 }

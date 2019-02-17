@@ -1,6 +1,5 @@
 package model;
 
-import model.Crossword;
 
 import java.util.Comparator;
 
