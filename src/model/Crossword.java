@@ -32,4 +32,8 @@ public class Crossword {
     public void setDescription(String description) {
         this.description.set(description);
     }
+
+    public int getLength() {
+        return getPassword().length();
+    }
 }

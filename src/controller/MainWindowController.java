@@ -8,15 +8,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.Crossword;
+import model.CrosswordComparator;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class MainWindowController implements Initializable {
@@ -59,13 +60,11 @@ public class MainWindowController implements Initializable {
     private ObservableList<Crossword> passwordList = FXCollections.observableArrayList(list);
 
 
-
     public MainWindowController() throws IOException {
 
     }
+
     FilteredList filter = new FilteredList(passwordList, e -> true);
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -185,10 +184,15 @@ public class MainWindowController implements Initializable {
                 if (newValue.isEmpty() || newValue==null){
                     return true;
                 }
-                else if (cross.getPassword().contains(newValue)){
+                else if (cross.getPassword().contains(newValue)){ //filtrowanie po znakach w password
                     return true;
                 }
-
+                else if (cross.getDescription().contains(newValue)){ //filtrowanie po znakach w description
+                    return true;
+                }
+                else if (cross.getLength() == 5){ //filrtowanie po długosci hasla
+                    return true;
+                }
                 return false;
             });
         });
