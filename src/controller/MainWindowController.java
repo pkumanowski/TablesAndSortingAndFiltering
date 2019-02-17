@@ -47,7 +47,7 @@ public class MainWindowController implements Initializable {
     public TextField search;
 
 
-    private Collection<Crossword> list = Files.readAllLines(new File("/Users/pawel/IdeaProjects/homework/Mid project/src/crossword.txt")
+    private Collection<Crossword> list = Files.readAllLines(new File("/Users/pawel/IdeaProjects/homework/Pawel Kumanowski Mid Project/src/crossword.txt")
             .toPath())
             .stream()
             .map(line -> {
@@ -108,7 +108,7 @@ public class MainWindowController implements Initializable {
         Writer writer = null;
         List<Crossword> temp = passwordList;
         try {
-            File file = new File("/Users/pawel/IdeaProjects/homework/Mid project/src/crossword.txt");
+            File file = new File("/Users/pawel/IdeaProjects/homework/Pawel Kumanowski Mid Project/src/crossword.txt");
             writer = new BufferedWriter(new FileWriter(file));
             for (Crossword crossword : temp) {
                 String text = crossword.getPassword() + ";" + crossword.getDescription() + ";" + "\n";
@@ -137,7 +137,7 @@ public class MainWindowController implements Initializable {
         Writer writer = null;
         List<Crossword> temp = passwordList;
         try {
-            File file = new File("/Users/pawel/IdeaProjects/homework/Mid project/src/crossword.txt");
+            File file = new File("/Users/pawel/IdeaProjects/homework/Pawel Kumanowski Mid Project/src/crossword.txt");
             writer = new BufferedWriter(new FileWriter(file));
             for (Crossword crossword : temp) {
                 String text = crossword.getPassword() + ";" + crossword.getDescription() + ";" + "\n";
